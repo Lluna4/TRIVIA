@@ -18,6 +18,13 @@ texto_pregunta.set("")
 texto_boton_1 = tkinter.StringVar()
 texto_boton_1.set("")
 
+texto_boton_2 = tkinter.StringVar()
+texto_boton_2.set("")
+
+texto_boton_3 = tkinter.StringVar()
+texto_boton_3.set("")
+
+
 botonera = tkinter.Frame(root, bg="red")
 botonera.place(relwidth=0.5, relheight=0.5, relx=0.25, rely=0.25)
 
@@ -27,9 +34,33 @@ lugar_de_las_preguntas.pack(side="top")
 boton1 = tkinter.Button(botonera, textvariable=texto_boton_1, bg="white", fg="black")
 boton1.pack(side="top")
 
+boton2 = tkinter.Button(botonera, textvariable=texto_boton_2, bg="white", fg="black")
+boton2.pack(anchor=tkinter.CENTER)
+
+boton3 = tkinter.Button(botonera, textvariable=texto_boton_3, bg="white", fg="black")
+boton3.pack(side="bottom")
+
+
+
 respuestas_correctas = 0  #toma la cuenta de las preguntas acertadas
 
-archivo_puntuacion = open("puntuacion.txt", "a")     #abre el archivo de la maxima puntuacion
+    #abre el archivo de la maxima puntuacion
+
+
+
+def volver_a_jugar():
+    global preguntas_restantes
+    global respuestas_correctas
+    preguntas_restantes = [1, 2, 3]
+    respuestas_correctas = 0
+    pregunta_random()
+    return respuestas_correctas
+    return preguntas_restantes
+
+def no_volver_a_jugar():
+    quit()
+
+
 
 
 def pregunta_random():                                          #crea la pregunta random y cuando no quedan mas acaba el juego
@@ -37,17 +68,16 @@ def pregunta_random():                                          #crea la pregunt
     global preguntas_restantes
 
 
-    if not preguntas_restantes:          # si no hay cosas en el array de preguntas restantes ejecuta:
+    if not preguntas_restantes: 
+        texto_pregunta.set("Has acertado %d preguntas quieres volver a jugar?" %respuestas_correctas)
+        texto_boton_1.set("si")
+        boton1.config(command=volver_a_jugar)         
+        texto_boton_2.set("no")
+        boton2.config(command=no_volver_a_jugar)
+        texto_boton_3.set("")
+        boton3.config(command=None)
 
-        print("has acertado %d preguntas" % respuestas_correctas)     # --Le dice al usuario las preguntas que ha acertado (se reformara con la gui)
-        respuestas_correctas_str = str(respuestas_correctas)          # --Pasa a string las preguntas correctas para escribirlas en un archivo
-        archivo_puntuacion.write(respuestas_correctas_str)            # --Escribe las preguntas correctas en un archivo
-        print("Queres volver a jugar?")                              # --Pregunta al usuario si quiere continuar
-        repetimos = input("")
-        if repetimos == "si":                                         # --Si la respuesta es si entonces devuelve todas las preguntas al array
-            preguntas_restantes = [1, 2, 3]
-            pregunta_random()
-            respuestas_correctas = 0
+        
 
 
     else:                            #si hay cosas en el array elige aleatoriamente otra pregunta
@@ -67,9 +97,45 @@ def pregunta_random():                                          #crea la pregunt
 
 
 
+def pregunta1_acertado():
+    global respuestas_correctas
+    respuestas_correctas += 1
+    preguntas_restantes.remove(1)
+    pregunta_random()
+    
+
+
+def pregunta1_fallado():
+    preguntas_restantes.remove(1)
+    pregunta_random()
 
 
 
+def pregunta2_acertado():
+    global respuestas_correctas
+    respuestas_correctas += 1
+    preguntas_restantes.remove(2)
+    pregunta_random()
+    
+
+
+def pregunta2_fallado():
+    preguntas_restantes.remove(2)
+    pregunta_random()
+
+
+
+def pregunta3_acertado():
+    global respuestas_correctas
+    respuestas_correctas += 1
+    preguntas_restantes.remove(3)
+    pregunta_random()
+    
+
+
+def pregunta3_fallado():
+    preguntas_restantes.remove(3)
+    pregunta_random()
 
 
 def pregunta1():                     #ejecuta la primera pregunta (explicacion codigo todas las preguntas)
@@ -77,22 +143,13 @@ def pregunta1():                     #ejecuta la primera pregunta (explicacion c
     
     texto_pregunta.set("En que año se fundó Facebook?")
     texto_boton_1.set("2014")
+    boton1.config(command=pregunta1_fallado)
+    texto_boton_2.set("2004")
+    boton2.config(command=pregunta1_acertado)
+    texto_boton_3.set("2008")
+    boton3.config(command=pregunta1_fallado)
     
     
-    print("En que año se fundó Facebook? ")              #--Pregunta la pregunta XD  
-    respuesta1 = input()                                 #--Pilla la respuesta del usuario
-    if respuesta1 == "2004":                             #--Si el usuario responde correctamente ejecuta:
-        respuestas_correctas += 1                        #-- -Suma uno a las respuestas correctas
-           
-
-        preguntas_restantes.remove(1)                    #-- -Elimina esta pregunta del array de las preguntas restantes
-        pregunta_random()                                #-- -Ejecuta la funcion para elegir otra pregunta (o acabar el juego)
-    else:                                                #-- si el usuario no responde correctamente lo ejecuta lo de antes salvo que no suma uno a las preguntas acertadas 
-        preguntas_restantes.remove(1)
-        pregunta_random()
-
-
-
     return respuestas_correctas                         # Devuelve el valor de la variable para que otras variables lo utilizen
 
 
@@ -103,51 +160,33 @@ def pregunta1():                     #ejecuta la primera pregunta (explicacion c
 
 def pregunta_2():                             #ejecuta la segunda pregunta
     global respuestas_correctas
-    
-    
     texto_pregunta.set("Que beben las vacas?")
-    texto_boton_1.set("Leche")
+    texto_boton_1.set("Agua")
+    boton1.config(command=pregunta2_acertado)
+    texto_boton_2.set("Leche")
+    boton2.config(command=pregunta2_fallado)
+    texto_boton_3.set("Nada")
+    boton3.config(command=pregunta2_fallado)
     
     
-    print("Que beben las vacas?")
-    respuesta2 = input()
-
-    if respuesta2 == "Agua":
-        respuestas_correctas += 1
-
-
-        preguntas_restantes.remove(2)
-
-        pregunta_random()
-    else:
-        preguntas_restantes.remove(2)
-        pregunta_random()
     return respuestas_correctas
 
 
 def pregunta_3():          
     global respuestas_correctas
     
-    texto_pregunta.set("Cual es la capital de suiza")
+    texto_pregunta.set("Cual es la capital de Suiza")
     texto_boton_1.set("Zurich")
-    
-    print("Cual es la capital de Suiza?")
-    respuesta2 = input()
-
-    if respuesta2 == "Berna":
-        respuestas_correctas += 1
-
-
-        preguntas_restantes.remove(3)
-
-        pregunta_random()
-    else:
-        preguntas_restantes.remove(3)
-        pregunta_random()
+    boton1.config(command=pregunta3_fallado)
+    texto_boton_2.set("Ginibra")
+    boton2.config(command=pregunta3_fallado)
+    texto_boton_3.set("Berna")
+    boton3.config(command=pregunta3_acertado)
     return respuestas_correctas
 
 pregunta_random() #ejecuta la funcion de pregunta random
 
-archivo_puntuacion.close() #cierra el archivo de puntuacion
 
 
+
+root.mainloop()
