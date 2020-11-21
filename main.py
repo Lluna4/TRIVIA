@@ -44,7 +44,22 @@ boton3.pack(side="bottom")
 
 respuestas_correctas = 0  #toma la cuenta de las preguntas acertadas
 
-    #abre el archivo de la maxima puntuacion
+
+def configuaracion():
+    texto_pregunta.set("Esta es la configuracion, donde puedes personalizar el juego y el idioma (no funcional)")
+    texto_boton_1.set("Personalizacion")
+    boton1.config(command=None) #de normal es personalizacion, none para no causar bugs hasta que se acabe personalizacion, funciona como pregunta_random()
+    texto_boton_2.set("Idioma (no funcional)")
+    boton2.config(command=None) #de normal es idioma, none porque a quien le apetece traducir un juego sin acabar?, funciona como configuracion()
+    
+
+def inicio():
+    boton3.pack_forget()
+    texto_pregunta.set("Hola! Bienvenido al trivia, puedes darle a continuar o si quieres puedes configurar la interfaz y el idioma (beta)")
+    texto_boton_1.set("continuar")
+    boton1.config(command=pregunta_random)
+    texto_boton_2.set("configuracion")
+    boton2.config(command=configuaracion)
 
 
 
@@ -66,6 +81,7 @@ def no_volver_a_jugar():
 def pregunta_random():                                          #crea la pregunta random y cuando no quedan mas acaba el juego
     global respuestas_correctas
     global preguntas_restantes
+    boton3.pack(side="bottom")
 
 
     if not preguntas_restantes: 
@@ -184,7 +200,7 @@ def pregunta_3():
     boton3.config(command=pregunta3_acertado)
     return respuestas_correctas
 
-pregunta_random() #ejecuta la funcion de pregunta random
+inicio()
 
 
 
