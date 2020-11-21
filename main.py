@@ -3,40 +3,50 @@ import tkinter
 from tkinter import filedialog, Text  # importa todo lo necesario para gui, ya que todo funciona
 
 preguntas_restantes = [1, 2, 3] #toma la cuenta de las preguntas restantes, si no hay nada se reinicia la cuenta
-root = tkinter.Tk()
-root.title("TEST")
+root = tkinter.Tk()  #incia la interfaz grafica
+root.title("TEST")   #le pone un titulo a la ventana
 
+#Le pone el tamaño a la ventana, como esto es un juego de movil es mas largo que ancho
 canvas = tkinter.Canvas(root, height=1280, width=720)
 canvas.pack()
 
+#Inicia el lugar donde se va a poner la pregunta, esta pintada de azul para verla mejor
 preguntas = tkinter.Frame(root, bg="blue")
 preguntas.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
 
+#Inicia el texto de la pregunta
 texto_pregunta = tkinter.StringVar()
 texto_pregunta.set("")
 
+#Inicia el texto del boton 1
 texto_boton_1 = tkinter.StringVar()
 texto_boton_1.set("")
 
+#Inicia el texto del boton 2
 texto_boton_2 = tkinter.StringVar()
 texto_boton_2.set("")
 
+#Inicia el texto del boton 3
 texto_boton_3 = tkinter.StringVar()
 texto_boton_3.set("")
 
-
+#inicia el lugar donde se ponen los botones
 botonera = tkinter.Frame(root, bg="red")
 botonera.place(relwidth=0.5, relheight=0.5, relx=0.25, rely=0.25)
 
+#Inicia el lugar donde van escritas las preguntas
 lugar_de_las_preguntas = tkinter.Label(preguntas, textvariable=texto_pregunta , bg="white", fg="black")
 lugar_de_las_preguntas.pack(side="top")
 
+#inicia el boton 1
 boton1 = tkinter.Button(botonera, textvariable=texto_boton_1, bg="white", fg="black")
 boton1.pack(side="top")
 
+#inicia el boton 2
 boton2 = tkinter.Button(botonera, textvariable=texto_boton_2, bg="white", fg="black")
 boton2.place(x=160, y=180)
 
+#inicia el boton 3
 boton3 = tkinter.Button(botonera, textvariable=texto_boton_3, bg="white", fg="black")
 boton3.pack(side="bottom")
 
@@ -44,7 +54,7 @@ boton3.pack(side="bottom")
 
 respuestas_correctas = 0  #toma la cuenta de las preguntas acertadas
 
-
+#inicia la pestaña de configuracion (esto sirve para cambiar el color de la interfaz y el idioma (no estoy seguro))
 def configuaracion():
     texto_pregunta.set("Esta es la configuracion, donde puedes personalizar el juego y el idioma (no funcional)")
     texto_boton_1.set("Personalizacion")
@@ -52,7 +62,7 @@ def configuaracion():
     texto_boton_2.set("Idioma (no funcional)")
     boton2.config(command=None) #de normal es idioma, none porque a quien le apetece traducir un juego sin acabar?, funciona como configuracion()
     
-
+#inicia lo primer que sale en pantalla al ejecutar el programa (da la opcion de continuar, Ejecuta pregunta_random o de la configuracion)
 def inicio():
     boton3.pack_forget()
     texto_pregunta.set("Hola! Bienvenido al trivia, puedes darle a continuar o si quieres puedes configurar la interfaz y el idioma (beta)")
@@ -62,7 +72,7 @@ def inicio():
     boton2.config(command=configuaracion)
 
 
-
+#cuando acaban de verse todas las preguntas se viene aqui para preguntar al jugador si quiere volver a jugar si dice que si reestablece todo sino cierra la app
 def volver_a_jugar():
     global preguntas_restantes
     global respuestas_correctas
@@ -77,8 +87,8 @@ def no_volver_a_jugar():
 
 
 
-
-def pregunta_random():                                          #crea la pregunta random y cuando no quedan mas acaba el juego
+#cuando acaban de verse todas las preguntas se viene aqui para preguntar al jugador si quiere volver a jugar si dice que si reestablece(funcion volver a jugar) todo sino cierra la app (funcion no volver a jugar)
+def pregunta_random():                                         
     global respuestas_correctas
     global preguntas_restantes
     boton3.pack(side="bottom")
@@ -112,7 +122,7 @@ def pregunta_random():                                          #crea la pregunt
 
 
 
-
+#si acierta la pregunta 1 le suma uno a la cuenta de las respuestas correcta, elimina la pregunta 1 de la lista de preguntas y escoge una pregunta aleatoria, lo mismo que las de las otras preguntas
 def pregunta1_acertado():
     global respuestas_correctas
     respuestas_correctas += 1
@@ -120,7 +130,7 @@ def pregunta1_acertado():
     pregunta_random()
     
 
-
+#si falla la pregunta, la elimina de la cuenta de preguntas y escoge una pregunta random, lo mismo que las de las otras preguntas
 def pregunta1_fallado():
     preguntas_restantes.remove(1)
     pregunta_random()
