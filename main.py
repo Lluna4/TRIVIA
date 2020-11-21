@@ -35,7 +35,7 @@ boton1 = tkinter.Button(botonera, textvariable=texto_boton_1, bg="white", fg="bl
 boton1.pack(side="top")
 
 boton2 = tkinter.Button(botonera, textvariable=texto_boton_2, bg="white", fg="black")
-boton2.pack(anchor=tkinter.CENTER)
+boton2.place(x=160, y=180)
 
 boton3 = tkinter.Button(botonera, textvariable=texto_boton_3, bg="white", fg="black")
 boton3.pack(side="bottom")
