@@ -2,7 +2,7 @@ import random
 import tkinter
 from tkinter import filedialog, Text  # importa todo lo necesario para gui, ya que todo funciona
 
-preguntas_restantes = [1, 2, 3] #toma la cuenta de las preguntas restantes, si no hay nada se reinicia la cuenta
+preguntas_restantes = [1, 2, 3, 4, 5] #toma la cuenta de las preguntas restantes, si no hay nada se reinicia la cuenta
 root = tkinter.Tk()  #incia la interfaz grafica
 root.title("TEST")   #le pone un titulo a la ventana
 
@@ -54,14 +54,57 @@ boton3.pack(side="bottom")
 
 respuestas_correctas = 0  #toma la cuenta de las preguntas acertadas
 
+
+def personalizacion1():
+    preguntas.config(bg="deeppink")
+    botonera.config(bg="purple")
+    inicio()
+
+
+
+def personalizacion2():
+    preguntas.config(bg="yellow")
+    botonera.config(bg="orange")
+    inicio()
+
+
+def personalizacion3():
+    preguntas.config(bg="black")
+    botonera.config(bg="dimgray")
+    lugar_de_las_preguntas.config(bg="black", fg="white")
+    boton1.config(bg="dimgray", fg="white")
+    boton2.config(bg="dimgray", fg="white")
+    boton3.config(bg="dimgray", fg="white")
+
+def personalizacion():
+    boton3.pack(side="bottom")
+    texto_pregunta.set("Este es el lugar de personalizacion, aqui podras elegir el fondo (test)") #no definitivo solo es para probar
+    texto_boton_1.set("fondo1 morado/ fondo2 fondo2 rosa")
+    boton1.config(command=personalizacion1)
+    texto_boton_2.set("fondo1 amarillo/ fondo2 naranja")
+    boton2.config(command=personalizacion2)
+    texto_boton_3.set("negro programador")
+    boton3.config(command=personalizacion3)
+
+
+
+
+
+
 #inicia la pestaña de configuracion (esto sirve para cambiar el color de la interfaz y el idioma (no estoy seguro))
 def configuaracion():
+    boton3.pack(side="bottom")
     texto_pregunta.set("Esta es la configuracion, donde puedes personalizar el juego y el idioma (no funcional)")
     texto_boton_1.set("Personalizacion")
-    boton1.config(command=None) #de normal es personalizacion, none para no causar bugs hasta que se acabe personalizacion, funciona como pregunta_random()
+    boton1.config(command=personalizacion) #de normal es personalizacion, none para no causar bugs hasta que se acabe personalizacion, funciona como pregunta_random()
     texto_boton_2.set("Idioma (no funcional)")
     boton2.config(command=None) #de normal es idioma, none porque a quien le apetece traducir un juego sin acabar?, funciona como configuracion()
-    
+    texto_boton_3.set("Volver")
+    boton3.config(command=inicio)
+
+
+
+
 #inicia lo primer que sale en pantalla al ejecutar el programa (da la opcion de continuar, Ejecuta pregunta_random o de la configuracion)
 def inicio():
     boton3.pack_forget()
@@ -76,12 +119,13 @@ def inicio():
 def volver_a_jugar():
     global preguntas_restantes
     global respuestas_correctas
-    preguntas_restantes = [1, 2, 3]
+    preguntas_restantes = [1, 2, 3, 4, 5]
     respuestas_correctas = 0
     pregunta_random()
     return respuestas_correctas
     return preguntas_restantes
 
+#si el usuario no deasea volver a jugar directamente cierra la app
 def no_volver_a_jugar():
     quit()
 
@@ -93,15 +137,15 @@ def pregunta_random():
     global preguntas_restantes
     boton3.pack(side="bottom")
 
-
+     # si no hay preguntas en la lista de preguntas restantes pregunta al jugador si quiere volver (o no) a jugar
     if not preguntas_restantes: 
+        boton3.pack_forget()
         texto_pregunta.set("Has acertado %d preguntas quieres volver a jugar?" %respuestas_correctas)
         texto_boton_1.set("si")
         boton1.config(command=volver_a_jugar)         
         texto_boton_2.set("no")
         boton2.config(command=no_volver_a_jugar)
-        texto_boton_3.set("")
-        boton3.config(command=None)
+        
 
         
 
@@ -116,6 +160,13 @@ def pregunta_random():
 
         if pregunta == 3:
             pregunta_3()
+        
+        if pregunta == 4:
+            pregunta_4()
+
+        if pregunta == 5:
+            pregunta_5()
+    
     return respuestas_correctas
     return preguntas_restantes  #pone que el codigo no sirve, no lo borrare por si acaso ya que el codigo funciona
 
@@ -167,9 +218,9 @@ def pregunta3_fallado():
 def pregunta1():                     #ejecuta la primera pregunta (explicacion codigo todas las preguntas)
     global respuestas_correctas                          #--Ya que la variable de las preguntas acertadas se comparte entre todas las funciones, tiene que saber el valor de esa variable la funcion
     
-    texto_pregunta.set("En que año se fundó Facebook?")
-    texto_boton_1.set("2014")
-    boton1.config(command=pregunta1_fallado)
+    texto_pregunta.set("En que año se fundó Facebook?")  #--Pone la pregunta en pantalla
+    texto_boton_1.set("2014")                            #--Pone el texto del boton en pantalla
+    boton1.config(command=pregunta1_fallado)             #--Le dice al boton que tiene que hacer al pulsarse, lo mismo con los demas
     texto_boton_2.set("2004")
     boton2.config(command=pregunta1_acertado)
     texto_boton_3.set("2008")
@@ -183,8 +234,8 @@ def pregunta1():                     #ejecuta la primera pregunta (explicacion c
 
 
 
-
-def pregunta_2():                             #ejecuta la segunda pregunta
+# Ejecuta la segunda pregunta, su estructura es igual a la primera
+def pregunta_2():                             
     global respuestas_correctas
     texto_pregunta.set("Que beben las vacas?")
     texto_boton_1.set("Agua")
@@ -197,7 +248,7 @@ def pregunta_2():                             #ejecuta la segunda pregunta
     
     return respuestas_correctas
 
-
+# Ejecuta la tercera (espera eso existe?) pregunta, su estructura es igual a la primera
 def pregunta_3():          
     global respuestas_correctas
     
@@ -208,6 +259,57 @@ def pregunta_3():
     boton2.config(command=pregunta3_fallado)
     texto_boton_3.set("Berna")
     boton3.config(command=pregunta3_acertado)
+    return respuestas_correctas
+
+
+
+def pregunta4_acertado():
+    global respuestas_correctas
+    respuestas_correctas += 1
+    preguntas_restantes.remove(4)
+    pregunta_random()
+
+def pregunta4_fallado():
+    preguntas_restantes.remove(4)
+    pregunta_random()
+
+# Ejecuta la cuarta (quarta siempre en mi corazon) pregunta, su estructura es igual a la primera
+def pregunta_4():          
+    global respuestas_correctas
+    
+    texto_pregunta.set("Cual es el lugar mas frio del mundo?")
+    texto_boton_1.set("Antartida")
+    boton1.config(command=pregunta4_acertado)
+    texto_boton_2.set("Siberia")
+    boton2.config(command=pregunta4_fallado)
+    texto_boton_3.set("Suecia")
+    boton3.config(command=pregunta4_fallado)
+    return respuestas_correctas
+
+
+
+
+def pregunta5_acertado():
+    global respuestas_correctas
+    respuestas_correctas += 1
+    preguntas_restantes.remove(5)
+    pregunta_random()
+
+def pregunta5_fallado():
+    preguntas_restantes.remove(5)
+    pregunta_random()
+
+# Ejecuta la quinta (ojooo cinco preguntas) pregunta, su estructura es igual a la primera
+def pregunta_5():          
+    global respuestas_correctas
+    
+    texto_pregunta.set("De que estado es la isla de la ibertadad (dificil)") # es un tema bastante discutido ya que el estado de Nueva York y el de Nueva Jersey la reclaman
+    texto_boton_1.set("Nueva Yersey")
+    boton1.config(command=pregunta5_fallado)
+    texto_boton_2.set("No es de ningun estado")
+    boton2.config(command=pregunta5_fallado)
+    texto_boton_3.set("Nueva York")
+    boton3.config(command=pregunta5_acertado)
     return respuestas_correctas
 
 inicio()
