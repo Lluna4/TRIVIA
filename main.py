@@ -1,15 +1,17 @@
 import random
 import tkinter
-
+from tkinter import *
 from tkinter import filedialog, Text  # importa todo lo necesario para gui, ya que todo funciona
-
-preguntas_restantes = [1, 2, 3, 4, 5] #toma la cuenta de las preguntas restantes, si no hay nada se reinicia la cuenta
+from tkinter import Image
+preguntas_restantes = [1, 2, 3, 4, 5, 6] #toma la cuenta de las preguntas restantes, si no hay nada se reinicia la cuenta
 root = tkinter.Tk()  #incia la interfaz grafica
 root.title("TEST")   #le pone un titulo a la ventana
 
 #Le pone el tamaño a la ventana, como esto es un juego de movil es mas largo que ancho
 canvas = tkinter.Canvas(root, height=1280, width=720)
 canvas.pack()
+
+test = PhotoImage(file="C:/Users/carly/Downloads/TRIVIA-con-ui/TRIVIA-con-ui/fotos/Facebook-2.png")
 
 
 
@@ -36,6 +38,7 @@ texto_boton_3.set("")
 #inicia el lugar donde se ponen los botones
 botonera = tkinter.Frame(root, bg="red")
 botonera.place(relwidth=0.5, relheight=0.5, relx=0.25, rely=0.25)
+lugar_imagenes = tkinter.Label(botonera)
 
 #Inicia el lugar donde van escritas las preguntas
 lugar_de_las_preguntas = tkinter.Label(preguntas, textvariable=texto_pregunta , bg="white", fg="black")
@@ -134,7 +137,7 @@ def inicio():
 def volver_a_jugar():
     global preguntas_restantes
     global respuestas_correctas
-    preguntas_restantes = [1, 2, 3, 4, 5]
+    preguntas_restantes = [1, 2, 3, 4, 5, 6]
     respuestas_correctas = 0
     pregunta_random()
     return respuestas_correctas
@@ -181,6 +184,9 @@ def pregunta_random():
 
         if pregunta == 5:
             pregunta_5()
+        
+        if pregunta == 6:
+            pregunta_6()
     
     return respuestas_correctas
     return preguntas_restantes  #pone que el codigo no sirve, no lo borrare por si acaso ya que el codigo funciona
@@ -190,6 +196,7 @@ def pregunta_random():
 
 #si acierta la pregunta 1 le suma uno a la cuenta de las respuestas correcta, elimina la pregunta 1 de la lista de preguntas y escoge una pregunta aleatoria, lo mismo que las de las otras preguntas
 def pregunta1_acertado():
+    
     global respuestas_correctas
     respuestas_correctas += 1
     preguntas_restantes.remove(1)
@@ -232,6 +239,8 @@ def pregunta3_fallado():
 
 def pregunta1():                     #ejecuta la primera pregunta (explicacion codigo todas las preguntas)
     global respuestas_correctas                          #--Ya que la variable de las preguntas acertadas se comparte entre todas las funciones, tiene que saber el valor de esa variable la funcion
+    lugar_imagenes.config(image=test)
+    lugar_imagenes.place(relwidth=1, relheight=1)
     boton2.place(x=160, y=180)
     texto_pregunta.set("En que año se fundó Facebook?")  #--Pone la pregunta en pantalla
     texto_boton_1.set("2014")                            #--Pone el texto del boton en pantalla
@@ -326,6 +335,31 @@ def pregunta_5():
     boton2.config(command=pregunta5_fallado)
     texto_boton_3.set("Nueva York")
     boton3.config(command=pregunta5_acertado)
+    return respuestas_correctas
+
+
+def pregunta6_acertado():
+    global respuestas_correctas
+    respuestas_correctas += 1
+    preguntas_restantes.remove(6)
+    pregunta_random()
+
+def pregunta6_fallado():
+    preguntas_restantes.remove(6)
+    pregunta_random()
+
+
+
+def pregunta_6():          
+    global respuestas_correctas
+    boton2.place(x=135, y=180)
+    texto_pregunta.set("Cual fue la segunda persona en pisar la luna? (pregunta troll)") # es un tema bastante discutido ya que el estado de Nueva York y el de Nueva Jersey la reclaman
+    texto_boton_1.set("Buzz Aldrin")
+    boton1.config(command=pregunta6_acertado)
+    texto_boton_2.set("Neil Amstrong")
+    boton2.config(command=pregunta6_fallado)
+    texto_boton_3.set("Houston")
+    boton3.config(command=pregunta6_fallado)
     return respuestas_correctas
 
 inicio()
