@@ -1,5 +1,6 @@
 import random
 import tkinter
+import pygame
 from tkinter import *
 from tkinter import filedialog, Text  # importa todo lo necesario para gui, ya que todo funciona
 from tkinter import Image
@@ -7,12 +8,19 @@ preguntas_restantes = [1, 2, 3, 4, 5, 6] #toma la cuenta de las preguntas restan
 root = tkinter.Tk()  #incia la interfaz grafica
 root.title("TEST")   #le pone un titulo a la ventana
 
+pygame.init()
+pygame.mixer.init()
+cancion = pygame.mixer.Sound("C:/Users/carly/Downloads/TRIVIA-con-ui/TRIVIA-con-ui/musica/chill-lofi-synth-para-programar-estudiar-y-montar-tu-pc.mp3")
+cancion.set_volume(0.015)
+cancion.play()
+
 #Le pone el tamaño a la ventana, como esto es un juego de movil es mas largo que ancho
 canvas = tkinter.Canvas(root, height=1280, width=720)
 canvas.pack()
 
 test = PhotoImage(file="C:/Users/carly/Downloads/TRIVIA-con-ui/TRIVIA-con-ui/fotos/Facebook-2.png")
 
+test_boton = PhotoImage(file="C:/Users/carly/Downloads/TRIVIA-con-ui/TRIVIA-con-ui/fotos/b_continuar.png")
 
 
 #Inicia el lugar donde se va a poner la pregunta, esta pintada de azul para verla mejor
@@ -125,6 +133,8 @@ def configuaracion():
 #inicia lo primer que sale en pantalla al ejecutar el programa (da la opcion de continuar, Ejecuta pregunta_random o de la configuracion)
 def inicio():
     boton2.place(x=140, y=180)
+    
+    
     boton3.pack_forget()
     texto_pregunta.set("Hola! Bienvenido al trivia, puedes darle a continuar o si quieres puedes configurar la interfaz y el idioma (beta)")
     texto_boton_1.set("continuar")
@@ -153,6 +163,7 @@ def no_volver_a_jugar():
 def pregunta_random():                                         
     global respuestas_correctas
     global preguntas_restantes
+    cancion.set_volume(0.2)
     boton3.pack(side="bottom")
 
      # si no hay preguntas en la lista de preguntas restantes pregunta al jugador si quiere volver (o no) a jugar
