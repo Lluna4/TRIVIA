@@ -8,19 +8,12 @@ preguntas_restantes = [1, 2, 3, 4, 5, 6] #toma la cuenta de las preguntas restan
 root = tkinter.Tk()  #incia la interfaz grafica
 root.title("TEST")   #le pone un titulo a la ventana
 
-pygame.init()
-pygame.mixer.init()
-cancion = pygame.mixer.Sound("C:/Users/carly/Downloads/TRIVIA-con-ui/TRIVIA-con-ui/musica/chill-lofi-synth-para-programar-estudiar-y-montar-tu-pc.mp3")
-cancion.set_volume(0.015)
-cancion.play()
+
 
 #Le pone el tamaño a la ventana, como esto es un juego de movil es mas largo que ancho
 canvas = tkinter.Canvas(root, height=1280, width=720)
 canvas.pack()
 
-test = PhotoImage(file="C:/Users/carly/Downloads/TRIVIA-con-ui/TRIVIA-con-ui/fotos/Facebook-2.png")
-
-test_boton = PhotoImage(file="C:/Users/carly/Downloads/TRIVIA-con-ui/TRIVIA-con-ui/fotos/b_continuar.png")
 
 
 #Inicia el lugar donde se va a poner la pregunta, esta pintada de azul para verla mejor
@@ -163,7 +156,7 @@ def no_volver_a_jugar():
 def pregunta_random():                                         
     global respuestas_correctas
     global preguntas_restantes
-    cancion.set_volume(0.2)
+    
     boton3.pack(side="bottom")
 
      # si no hay preguntas en la lista de preguntas restantes pregunta al jugador si quiere volver (o no) a jugar
@@ -250,7 +243,7 @@ def pregunta3_fallado():
 
 def pregunta1():                     #ejecuta la primera pregunta (explicacion codigo todas las preguntas)
     global respuestas_correctas                          #--Ya que la variable de las preguntas acertadas se comparte entre todas las funciones, tiene que saber el valor de esa variable la funcion
-    lugar_imagenes.config(image=test)
+    
     lugar_imagenes.place(relwidth=1, relheight=1)
     boton2.place(x=160, y=180)
     texto_pregunta.set("En que año se fundó Facebook?")  #--Pone la pregunta en pantalla
