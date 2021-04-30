@@ -1,61 +1,55 @@
 import random
-import tkinter
+import tkinter as tk
 import pygame
 from tkinter import *
 from tkinter import filedialog, Text  # importa todo lo necesario para gui, ya que todo funciona
 from tkinter import Image
 preguntas_restantes = [1, 2, 3, 4, 5, 6] #toma la cuenta de las preguntas restantes, si no hay nada se reinicia la cuenta
-root = tkinter.Tk()  #incia la interfaz grafica
-root.title("TEST")   #le pone un titulo a la ventana
+root = tk.Tk()
+root.geometry("720x1280")
+root.title("test")
 
 
-
-#Le pone el tamaño a la ventana, como esto es un juego de movil es mas largo que ancho
-canvas = tkinter.Canvas(root, height=1280, width=720)
+canvas = tk.Canvas(root, height=1280, width=720)
 canvas.pack()
 
+lugar_de_las_preguntas = tk.Frame(root, bg="pink")
+lugar_de_las_preguntas.place(relwidth=1, relheight=0.2)
 
+texto_pregunta = tk.StringVar()
+texto_pregunta.set("adgajdhahdjavyegfu")
 
-#Inicia el lugar donde se va a poner la pregunta, esta pintada de azul para verla mejor
-preguntas = tkinter.Frame(root, bg="blue")
-preguntas.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
+p = tk.Label(lugar_de_las_preguntas, textvariable=texto_pregunta, bg="pink")
+p.config(font=("arial", 20))
+p.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
 
-#Inicia el texto de la pregunta
-texto_pregunta = tkinter.StringVar()
-texto_pregunta.set("")
+texto_boton_1 = tk.StringVar()
+texto_boton_1.set("dolor")
 
-#Inicia el texto del boton 1
-texto_boton_1 = tkinter.StringVar()
-texto_boton_1.set("")
+texto_boton_2 = tk.StringVar()
+texto_boton_2.set("test2")
 
-#Inicia el texto del boton 2
-texto_boton_2 = tkinter.StringVar()
-texto_boton_2.set("")
+texto_boton_3= tk.StringVar()
+texto_boton_3.set("test3")
 
-#Inicia el texto del boton 3
-texto_boton_3 = tkinter.StringVar()
-texto_boton_3.set("")
+"""
+def cerrar():
+    TRIVIA-con-ui\ltroll = tk.Label(canvas, text="Has desbloqueado la puta")
+    ltroll.pack(side=tk.BOTTOM)
+    os.startfile("C:/Riot Games/League of Legends/LeagueClient.exe")
+    #quit()"""
 
-#inicia el lugar donde se ponen los botones
-botonera = tkinter.Frame(root, bg="red")
-botonera.place(relwidth=0.5, relheight=0.5, relx=0.25, rely=0.25)
-lugar_imagenes = tkinter.Label(botonera)
+boton1 = tk.Button(canvas, textvariable=texto_boton_1)
+boton1.config(font=("arial", 14))
+boton1.place(relx=0.5, rely=0.325, anchor=tk.CENTER, relwidth=0.2, relheight=0.05)
 
-#Inicia el lugar donde van escritas las preguntas
-lugar_de_las_preguntas = tkinter.Label(preguntas, textvariable=texto_pregunta , bg="white", fg="black")
-lugar_de_las_preguntas.pack(side="top")
+boton2 = tk.Button(canvas, textvariable=texto_boton_2)
+boton2.config(font=("arial", 14))
+boton2.place(relx=0.5, rely=0.525, anchor=tk.CENTER, relwidth=0.2, relheight=0.05)
 
-#inicia el boton 1
-boton1 = tkinter.Button(botonera, textvariable=texto_boton_1, bg="white", fg="black")
-boton1.pack(side="top")
-
-#inicia el boton 2
-boton2 = tkinter.Button(botonera, textvariable=texto_boton_2, bg="white", fg="black")
-boton2.place(x=160, y=180)
-
-#inicia el boton 3
-boton3 = tkinter.Button(botonera, textvariable=texto_boton_3, bg="white", fg="black")
-boton3.pack(side="bottom")
+boton3 = tk.Button(canvas, textvariable=texto_boton_3)
+boton3.config(font=("arial", 14))
+boton3.place(relx=0.5, rely=0.725, anchor=tk.CENTER, relwidth=0.2, relheight=0.05)
 
 
 
@@ -63,9 +57,9 @@ respuestas_correctas = 0  #toma la cuenta de las preguntas acertadas
 
 
 def personalizacion1():
-    preguntas.config(bg="deeppink")
-    botonera.config(bg="purple")
-    lugar_de_las_preguntas.config(bg="white", fg="black")
+    lugar_de_las_preguntas.config(bg="deeppink")
+    canvas.config(bg="purple")
+    p.config(bg="deeppink", fg="black")
     boton1.config(bg="white", fg="black")
     boton2.config(bg="white", fg="black")
     boton3.config(bg="white", fg="black")
@@ -74,9 +68,9 @@ def personalizacion1():
 
 
 def personalizacion2():
-    preguntas.config(bg="yellow")
-    botonera.config(bg="orange")
-    lugar_de_las_preguntas.config(bg="white", fg="black")
+    lugar_de_las_preguntas.config(bg="yellow")
+    canvas.config(bg="orange")
+    #lugar_de_las_preguntas.config(bg="white", fg="black")
     boton1.config(bg="white", fg="black")
     boton2.config(bg="white", fg="black")
     boton3.config(bg="white", fg="black")
@@ -84,17 +78,17 @@ def personalizacion2():
 
 
 def personalizacion3():
-    preguntas.config(bg="black")
-    botonera.config(bg="dimgray")
-    lugar_de_las_preguntas.config(bg="black", fg="white")
+    lugar_de_las_preguntas.config(bg="black")
+    canvas.config(bg="dimgray")
+    #lugar_de_las_preguntas.config(bg="black", fg="white")
     boton1.config(bg="dimgray", fg="white")
     boton2.config(bg="dimgray", fg="white")
     boton3.config(bg="dimgray", fg="white")
     inicio()
 
 def personalizacion():
-    boton2.place(x=90, y=180)
-    boton3.pack(side="bottom")
+    boton2.place(relx=0.5, rely=0.525, anchor=tk.CENTER, relwidth=0.2, relheight=0.05)
+    boton3.place(relx=0.5, rely=0.725, anchor=tk.CENTER, relwidth=0.2, relheight=0.05)
     texto_pregunta.set("Este es el lugar de personalizacion, aqui podras elegir el fondo (test)") #no definitivo solo es para probar
     texto_boton_1.set("fondo1 morado/ fondo2 fondo2 rosa")
     boton1.config(command=personalizacion1)
@@ -110,10 +104,10 @@ def personalizacion():
 
 #inicia la pestaña de configuracion (esto sirve para cambiar el color de la interfaz y el idioma (no estoy seguro))
 def configuaracion():
-    boton2.place(x=130, y=180)
-    boton3.pack(side="bottom")
+    boton2.place(relx=0.5, rely=0.525, anchor=tk.CENTER, relwidth=0.2, relheight=0.05)
+    boton3.place(relx=0.5, rely=0.725, anchor=tk.CENTER, relwidth=0.2, relheight=0.05)
     texto_pregunta.set("Esta es la configuracion, donde puedes personalizar el juego y el idioma (no funcional)")
-    texto_boton_1.set("Personalizacion")
+    texto_boton_1.set("Personalizacion\n NO LO TOQUES")
     boton1.config(command=personalizacion) #de normal es personalizacion, none para no causar bugs hasta que se acabe personalizacion, funciona como pregunta_random()
     texto_boton_2.set("Idioma (no funcional)")
     boton2.config(command=None) #de normal es idioma, none porque a quien le apetece traducir un juego sin acabar?, funciona como configuracion()
@@ -125,11 +119,11 @@ def configuaracion():
 
 #inicia lo primer que sale en pantalla al ejecutar el programa (da la opcion de continuar, Ejecuta pregunta_random o de la configuracion)
 def inicio():
-    boton2.place(x=140, y=180)
+    #boton2.place(x=140, y=180)
     
     
-    boton3.pack_forget()
-    texto_pregunta.set("Hola! Bienvenido al trivia, puedes darle a continuar o si quieres puedes configurar la interfaz y el idioma (beta)")
+    boton3.place_forget()
+    texto_pregunta.set("Hola! Bienvenido al trivia, puedes\ndarle a continuar o si quieres puedes\nconfigurar la interfaz y el idioma (beta)")
     texto_boton_1.set("continuar")
     boton1.config(command=pregunta_random)
     texto_boton_2.set("configuracion")
@@ -157,7 +151,7 @@ def pregunta_random():
     global respuestas_correctas
     global preguntas_restantes
     
-    boton3.pack(side="bottom")
+    boton3.place(relx=0.5, rely=0.725, anchor=tk.CENTER, relwidth=0.2, relheight=0.05)
 
      # si no hay preguntas en la lista de preguntas restantes pregunta al jugador si quiere volver (o no) a jugar
     if not preguntas_restantes: 
@@ -244,8 +238,8 @@ def pregunta3_fallado():
 def pregunta1():                     #ejecuta la primera pregunta (explicacion codigo todas las preguntas)
     global respuestas_correctas                          #--Ya que la variable de las preguntas acertadas se comparte entre todas las funciones, tiene que saber el valor de esa variable la funcion
     
-    lugar_imagenes.place(relwidth=1, relheight=1)
-    boton2.place(x=160, y=180)
+    #lugar_imagenes.place(relwidth=1, relheight=1)
+    #boton2.place(x=160, y=180)
     texto_pregunta.set("En que año se fundó Facebook?")  #--Pone la pregunta en pantalla
     texto_boton_1.set("2014")                            #--Pone el texto del boton en pantalla
     boton1.config(command=pregunta1_fallado)             #--Le dice al boton que tiene que hacer al pulsarse, lo mismo con los demas
@@ -265,7 +259,7 @@ def pregunta1():                     #ejecuta la primera pregunta (explicacion c
 # Ejecuta la segunda pregunta, su estructura es igual a la primera
 def pregunta_2():                             
     global respuestas_correctas
-    boton2.place(x=160, y=180)
+    #boton2.place(x=160, y=180)
     texto_pregunta.set("Que beben las vacas?")
     texto_boton_1.set("Agua")
     boton1.config(command=pregunta2_acertado)
@@ -280,7 +274,7 @@ def pregunta_2():
 # Ejecuta la tercera (espera eso existe?) pregunta, su estructura es igual a la primera
 def pregunta_3():          
     global respuestas_correctas
-    boton2.place(x=160, y=180)
+    #boton2.place(x=160, y=180)
     texto_pregunta.set("Cual es la capital de Suiza")
     texto_boton_1.set("Zurich")
     boton1.config(command=pregunta3_fallado)
@@ -305,7 +299,7 @@ def pregunta4_fallado():
 # Ejecuta la cuarta (quarta siempre en mi corazon) pregunta, su estructura es igual a la primera
 def pregunta_4():          
     global respuestas_correctas
-    boton2.place(x=160, y=180)
+    #boton2.place(x=160, y=180)
     texto_pregunta.set("Cual es el lugar mas frio del mundo?")
     texto_boton_1.set("Antartida")
     boton1.config(command=pregunta4_acertado)
@@ -331,7 +325,7 @@ def pregunta5_fallado():
 # Ejecuta la quinta (ojooo cinco preguntas) pregunta, su estructura es igual a la primera
 def pregunta_5():          
     global respuestas_correctas
-    boton2.place(x=120, y=180)
+    #boton2.place(x=120, y=180)
     texto_pregunta.set("De que estado es la isla de la ibertadad (dificil)") # es un tema bastante discutido ya que el estado de Nueva York y el de Nueva Jersey la reclaman
     texto_boton_1.set("Nueva Yersey")
     boton1.config(command=pregunta5_fallado)
@@ -356,7 +350,7 @@ def pregunta6_fallado():
 
 def pregunta_6():          
     global respuestas_correctas
-    boton2.place(x=135, y=180)
+    #boton2.place(x=135, y=180)
     texto_pregunta.set("Cual fue la segunda persona en pisar la luna? (pregunta troll)") # es un tema bastante discutido ya que el estado de Nueva York y el de Nueva Jersey la reclaman
     texto_boton_1.set("Buzz Aldrin")
     boton1.config(command=pregunta6_acertado)
