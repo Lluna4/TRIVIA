@@ -4,6 +4,7 @@ import pygame
 from tkinter import *
 from tkinter import filedialog, Text  # importa todo lo necesario para gui, ya que todo funciona
 from tkinter import Image
+from tkinter import ttk
 preguntas_restantes = [1, 2, 3, 4, 5, 6] #toma la cuenta de las preguntas restantes, si no hay nada se reinicia la cuenta
 root = tk.Tk()
 root.geometry("720x1280")
@@ -56,9 +57,10 @@ boton3.place(relx=0.5, rely=0.725, anchor=tk.CENTER, relwidth=0.2, relheight=0.0
 respuestas_correctas = 0  #toma la cuenta de las preguntas acertadas
 
 
+#REWORKEAR PERSONALIZACION
 def personalizacion1():
     lugar_de_las_preguntas.config(bg="deeppink")
-    canvas.config(bg="purple")
+    #canvas.config(bg="purple")
     p.config(bg="deeppink", fg="black")
     boton1.config(bg="white", fg="black")
     boton2.config(bg="white", fg="black")
@@ -106,10 +108,10 @@ def personalizacion():
 def configuaracion():
     boton2.place(relx=0.5, rely=0.525, anchor=tk.CENTER, relwidth=0.2, relheight=0.05)
     boton3.place(relx=0.5, rely=0.725, anchor=tk.CENTER, relwidth=0.2, relheight=0.05)
-    texto_pregunta.set("Esta es la configuracion, donde puedes personalizar el juego y el idioma (no funcional)")
-    texto_boton_1.set("Personalizacion\n NO LO TOQUES")
+    texto_pregunta.set("Esta es la configuracion, donde puedes\npersonalizar el juego y el idioma (no funcional)")
+    texto_boton_1.set("Personalizacion\nNO LO TOQUES")
     boton1.config(command=personalizacion) #de normal es personalizacion, none para no causar bugs hasta que se acabe personalizacion, funciona como pregunta_random()
-    texto_boton_2.set("Idioma (no funcional)")
+    texto_boton_2.set("Idioma\n(no funcional)")
     boton2.config(command=None) #de normal es idioma, none porque a quien le apetece traducir un juego sin acabar?, funciona como configuracion()
     texto_boton_3.set("Volver")
     boton3.config(command=inicio)
@@ -155,8 +157,8 @@ def pregunta_random():
 
      # si no hay preguntas en la lista de preguntas restantes pregunta al jugador si quiere volver (o no) a jugar
     if not preguntas_restantes: 
-        boton3.pack_forget()
-        texto_pregunta.set("Has acertado %d preguntas quieres volver a jugar?" %respuestas_correctas)
+        boton3.place_forget()
+        texto_pregunta.set("Has acertado %d preguntas\nquieres volver a jugar?" %respuestas_correctas)
         texto_boton_1.set("si")
         boton1.config(command=volver_a_jugar)         
         texto_boton_2.set("no")
@@ -326,10 +328,10 @@ def pregunta5_fallado():
 def pregunta_5():          
     global respuestas_correctas
     #boton2.place(x=120, y=180)
-    texto_pregunta.set("De que estado es la isla de la ibertadad (dificil)") # es un tema bastante discutido ya que el estado de Nueva York y el de Nueva Jersey la reclaman
+    texto_pregunta.set("De que estado es la isla de la libertadad?") # es un tema bastante discutido ya que el estado de Nueva York y el de Nueva Jersey la reclaman
     texto_boton_1.set("Nueva Yersey")
     boton1.config(command=pregunta5_fallado)
-    texto_boton_2.set("No es de ningun estado")
+    texto_boton_2.set("No es de\nningun estado")
     boton2.config(command=pregunta5_fallado)
     texto_boton_3.set("Nueva York")
     boton3.config(command=pregunta5_acertado)
@@ -351,7 +353,7 @@ def pregunta6_fallado():
 def pregunta_6():          
     global respuestas_correctas
     #boton2.place(x=135, y=180)
-    texto_pregunta.set("Cual fue la segunda persona en pisar la luna? (pregunta troll)") # es un tema bastante discutido ya que el estado de Nueva York y el de Nueva Jersey la reclaman
+    texto_pregunta.set("Cual fue la segunda persona en pisar la luna?") # es un tema bastante discutido ya que el estado de Nueva York y el de Nueva Jersey la reclaman
     texto_boton_1.set("Buzz Aldrin")
     boton1.config(command=pregunta6_acertado)
     texto_boton_2.set("Neil Amstrong")

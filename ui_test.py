@@ -2,11 +2,11 @@ import tkinter as tk
 import os
 
 root = tk.Tk()
-root.geometry("720x1280")
+root.geometry("720x1024")
 root.title("test")
 
 
-canvas = tk.Canvas(root, height=1280, width=720)
+canvas = tk.Canvas(root, height=1024, width=720)
 canvas.pack()
 
 frame = tk.Frame(root, bg="pink")
@@ -31,7 +31,7 @@ texto_boton_3.set("test3")
 
 def cerrar():
     ltroll = tk.Label(canvas, text="Has desbloqueado la puta")
-    ltroll.pack(side=tk.BOTTOM)
+    ltroll.pack(side=tk.TOP)
     os.startfile("C:/Riot Games/League of Legends/LeagueClient.exe")
     #quit()
 
