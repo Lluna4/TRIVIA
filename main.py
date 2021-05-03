@@ -10,6 +10,8 @@ root = tk.Tk()
 root.geometry("720x1280")
 root.title("test")
 
+modo = 0
+
 
 canvas = tk.Canvas(root, height=1280, width=720)
 canvas.pack()
@@ -23,6 +25,13 @@ texto_pregunta.set("adgajdhahdjavyegfu")
 p = tk.Label(lugar_de_las_preguntas, textvariable=texto_pregunta, bg="pink")
 p.config(font=("arial", 20))
 p.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
+
+texto_vida = tk.StringVar()
+texto_vida.set("Hp=100")
+
+v = tk.Label(canvas, textvariable=texto_vida)
+v.config(font=("arial", 14))
+
 
 texto_boton_1 = tk.StringVar()
 texto_boton_1.set("dolor")
@@ -121,48 +130,112 @@ def configuaracion():
 
 #inicia lo primer que sale en pantalla al ejecutar el programa (da la opcion de continuar, Ejecuta pregunta_random o de la configuracion)
 def inicio():
+    global vida
+    global vivo
+    vivo = True
     #boton2.place(x=140, y=180)
-    
+    vida = 100
+    texto_vida.set(f"Hp={vida}")
     
     boton3.place_forget()
     texto_pregunta.set("Hola! Bienvenido al trivia, puedes\ndarle a continuar o si quieres puedes\nconfigurar la interfaz y el idioma (beta)")
-    texto_boton_1.set("continuar")
-    boton1.config(command=pregunta_random)
+    texto_boton_1.set("Modos de\njuego")
+    boton1.config(command=modos)
     texto_boton_2.set("configuracion")
     boton2.config(command=configuaracion)
+    return vida
 
 
 #cuando acaban de verse todas las preguntas se viene aqui para preguntar al jugador si quiere volver a jugar si dice que si reestablece todo sino cierra la app
 def volver_a_jugar():
     global preguntas_restantes
     global respuestas_correctas
+    global vivo
+    global vida
+    vivo = True
+    vida = 100
+    texto_vida.set(f"Hp={vida}")
     preguntas_restantes = [1, 2, 3, 4, 5, 6]
     respuestas_correctas = 0
     pregunta_random()
-    return respuestas_correctas
-    return preguntas_restantes
+    return respuestas_correctas, preguntas_restantes, vivo, vida
+   
 
 #si el usuario no deasea volver a jugar directamente cierra la app
 def no_volver_a_jugar():
     quit()
 
 
+# Elige el modo de juego
+def modos():
+    texto_boton_1.set("Normal")
+    boton1.config(command=modo_normal)
+    texto_boton_2.set("Con vida")
+    boton2.config(command=modo_vida) #Cambiar cuando el modo normal este acabado
+    texto_boton_3.set("HARDCORE")
+    boton3.config(command=modo_hardcore)
+    boton3.place(relx=0.5, rely=0.725, anchor=tk.CENTER, relwidth=0.2, relheight=0.05)
+
+#Inicia el modo normal, sin hp
+def modo_normal():
+    global modo
+    modo = 0
+    pregunta_random()
+    return modo
+
+
+#Inicia el modo con vida
+def modo_vida():
+    global modo
+    modo = 1
+    v.place(relx=0.05, rely=0.18, relwidth=0.1, relheight=0.1)
+    pregunta_random()
+    return modo
+
+def modo_hardcore():
+    global modo
+    modo = 2
+    
+    pregunta_random()
+    return modo
 
 #cuando acaban de verse todas las preguntas se viene aqui para preguntar al jugador si quiere volver a jugar si dice que si reestablece(funcion volver a jugar) todo sino cierra la app (funcion no volver a jugar)
 def pregunta_random():                                         
     global respuestas_correctas
     global preguntas_restantes
+    #global modo
     
     boton3.place(relx=0.5, rely=0.725, anchor=tk.CENTER, relwidth=0.2, relheight=0.05)
 
      # si no hay preguntas en la lista de preguntas restantes pregunta al jugador si quiere volver (o no) a jugar
     if not preguntas_restantes: 
-        boton3.place_forget()
+        #boton3.place_forget()
         texto_pregunta.set("Has acertado %d preguntas\nquieres volver a jugar?" %respuestas_correctas)
         texto_boton_1.set("si")
         boton1.config(command=volver_a_jugar)         
         texto_boton_2.set("no")
         boton2.config(command=no_volver_a_jugar)
+        texto_boton_3.set("menu principal")
+        boton3.config(command=inicio)
+    
+    elif vida <= 0:
+        texto_pregunta.set("Has acertado %d preguntas\n antes de morir quieres\nvolver a jugar?" %respuestas_correctas)
+        texto_boton_1.set("si")
+        boton1.config(command=volver_a_jugar)         
+        texto_boton_2.set("no")
+        boton2.config(command=no_volver_a_jugar)
+        texto_boton_3.set("menu principal")
+        boton3.config(command=inicio)
+    
+    elif vivo == False:
+        texto_pregunta.set("No has superado el reto\nquieres volver a intentarlo?")
+        texto_boton_1.set("si")
+        boton1.config(command=volver_a_jugar)         
+        texto_boton_2.set("no")
+        boton2.config(command=no_volver_a_jugar)
+        texto_boton_3.set("menu principal")
+        boton3.config(command=inicio)
+
         
 
         
@@ -205,13 +278,24 @@ def pregunta1_acertado():
 
 #si falla la pregunta, la elimina de la cuenta de preguntas y escoge una pregunta random, lo mismo que las de las otras preguntas
 def pregunta1_fallado():
+    global modo
+    global vida
+    global vivo
+    if modo == 1:
+        vida -= 20
+        texto_vida.set(f"Hp={vida}")
+    if modo == 2:
+        vivo = False
+
     preguntas_restantes.remove(1)
     pregunta_random()
+    return vida, vivo
 
 
 
 def pregunta2_acertado():
     global respuestas_correctas
+    
     respuestas_correctas += 1
     preguntas_restantes.remove(2)
     pregunta_random()
@@ -219,8 +303,17 @@ def pregunta2_acertado():
 
 
 def pregunta2_fallado():
+    global modo
+    global vida
+    global vivo
+    if modo == 1:
+        vida -= 20
+        texto_vida.set(f"Hp={vida}")
+    if modo == 2:
+        vivo = False
     preguntas_restantes.remove(2)
     pregunta_random()
+    return vida, vivo
 
 
 
@@ -233,8 +326,17 @@ def pregunta3_acertado():
 
 
 def pregunta3_fallado():
+    global modo
+    global vida
+    global vivo
+    if modo == 1:
+        vida -= 20
+        texto_vida.set(f"Hp={vida}")
+    if modo == 2:
+        vivo = False
     preguntas_restantes.remove(3)
     pregunta_random()
+    return vida, vivo
 
 
 def pregunta1():                     #ejecuta la primera pregunta (explicacion codigo todas las preguntas)
@@ -295,8 +397,17 @@ def pregunta4_acertado():
     pregunta_random()
 
 def pregunta4_fallado():
+    global modo
+    global vida
+    global vivo
+    if modo == 1:
+        vida -= 20
+        texto_vida.set(f"Hp={vida}")
+    if modo == 2:
+        vivo = False
     preguntas_restantes.remove(4)
     pregunta_random()
+    return vida, vivo
 
 # Ejecuta la cuarta (quarta siempre en mi corazon) pregunta, su estructura es igual a la primera
 def pregunta_4():          
@@ -321,8 +432,17 @@ def pregunta5_acertado():
     pregunta_random()
 
 def pregunta5_fallado():
+    global modo
+    global vida
+    global vivo
+    if modo == 1:
+        vida -= 20
+        texto_vida.set(f"Hp={vida}")
+    if modo == 2:
+        vivo = False
     preguntas_restantes.remove(5)
     pregunta_random()
+    return vida, vivo
 
 # Ejecuta la quinta (ojooo cinco preguntas) pregunta, su estructura es igual a la primera
 def pregunta_5():          
@@ -345,8 +465,17 @@ def pregunta6_acertado():
     pregunta_random()
 
 def pregunta6_fallado():
+    global modo
+    global vida
+    global vivo
+    if modo == 1:
+        vida -= 20
+        texto_vida.set(f"Hp={vida}")
+    if modo == 2:
+        vivo = False
     preguntas_restantes.remove(6)
     pregunta_random()
+    return vida, vivo
 
 
 

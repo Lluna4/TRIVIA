@@ -19,6 +19,10 @@ p = tk.Label(frame, textvariable=t, bg="pink")
 p.config(font=("arial", 30))
 p.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
 
+v = tk.Label(canvas, text="hp=100")
+v.config(font=("arial", 14))
+v.place(relx=0.05, rely=0.18, relwidth=0.1, relheight=0.1)
+
 texto_boton_1 = tk.StringVar()
 texto_boton_1.set("dolor")
 
